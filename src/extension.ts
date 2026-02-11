@@ -5,17 +5,17 @@ import path from 'node:path';
 import * as vscode from 'vscode';
 
 interface ImageOptions {
-	imageDir?: string;
+	imageDir?: Function;
 }
 
 export function prefixifyImageURL(md: MarkdownIt, pluginOptions?:ImageOptions) {
-	const imageDir = pluginOptions?.imageDir || ".";
+	const imageDir = pluginOptions?.imageDir?.();
 
 	const original = md.renderer.rules.image!;
 	md.renderer.rules.image = (tokens, idx, options, env, self) => {
 		const token = tokens[idx];
 		const src = token?.attrGet('src');
-		if (src && !isAbsolutePath(src) && !isExternalUrl(src)) {
+		if (imageDir && src && !isAbsolutePath(src) && !isExternalUrl(src)) {
 			token.attrSet('src', path.join(imageDir, src));
 		}
 
@@ -30,7 +30,7 @@ export function activate(context: vscode.ExtensionContext) {
 	return {
 		extendMarkdownIt(md: MarkdownIt) {
 			return md.use(prefixifyImageURL, {
-				imageDir: "assets",
+				imageDir: () => "assets",
 			});
 		}
 	};
