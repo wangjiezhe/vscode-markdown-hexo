@@ -1,3 +1,5 @@
+import fs from 'fs';
+import matter from 'gray-matter';
 import type MarkdownIt from 'markdown-it';
 import path from 'node:path';
 // The module 'vscode' contains the VS Code extensibility API
@@ -9,15 +11,19 @@ export function prefixifyImageURL(md: MarkdownIt) {
 	const original = md.renderer.rules.image!;
 	md.renderer.rules.image = (tokens, idx, options, env, self) => {
 		let imageDir = env.imageDir;
-		if (!imageDir) {
-			imageDir = 'assets';
+
+		if (imageDir === undefined) {
+			const filePath = env.currentDocument.path;
+			imageDir = getImageDir(filePath);
 			env.imageDir = imageDir;
 		}
 
-		const token = tokens[idx];
-		const src = token?.attrGet('src');
-		if (src && !isAbsolutePath(src) && !isExternalUrl(src)) {
-			token.attrSet('src', path.join(imageDir, src));
+		if (imageDir !== null) {
+			const token = tokens[idx];
+			const src = token?.attrGet('src');
+			if (src && !isAbsolutePath(src) && !isExternalUrl(src)) {
+				token.attrSet('src', path.join(imageDir, src));
+			}
 		}
 
 		return original(tokens, idx, options, env, self);
@@ -36,8 +42,14 @@ export function activate(context: vscode.ExtensionContext) {
 }
 
 // This method is called when your extension is deactivated
-export function deactivate() {}
+export function deactivate() { }
 
+
+function getImageDir(filePath: string): string | null {
+	const fileContent = fs.readFileSync(filePath, 'utf-8');
+	const { data } = matter(fileContent);
+	return data['typora-root-url'] ?? null;
+}
 
 /**
  * 检查路径是否为绝对路径
