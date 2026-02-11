@@ -1,0 +1,11 @@
+diff --git a/node_modules/markdown-it-front-matter/index.d.ts b/node_modules/markdown-it-front-matter/index.d.ts
+index 16b2d1d..135cfa5 100644
+--- a/node_modules/markdown-it-front-matter/index.d.ts
++++ b/node_modules/markdown-it-front-matter/index.d.ts
+@@ -1,5 +1,5 @@
+ declare module 'markdown-it-front-matter' {
+-  import MarkdownIt from 'markdown-it/lib'
++  import MarkdownIt from 'markdown-it'
+ 
+   namespace markdownItFrontMatter {
+     type FrontMatterPluginOptions = (rawMeta: string) => void
