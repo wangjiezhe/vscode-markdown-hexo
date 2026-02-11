@@ -1,20 +1,24 @@
 import type MarkdownIt from 'markdown-it';
 import path from 'node:path';
+import frontMatter from 'markdown-it-front-matter';
+import yaml from 'js-yaml';
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
+
+
+let dynamicImageDir: any;
 
 interface ImageOptions {
 	imageDir?: Function;
 }
 
-export function prefixifyImageURL(md: MarkdownIt, pluginOptions?:ImageOptions) {
-	const imageDir = pluginOptions?.imageDir?.();
-
+export function prefixifyImageURL(md: MarkdownIt, pluginOptions?: ImageOptions) {
 	const original = md.renderer.rules.image!;
 	md.renderer.rules.image = (tokens, idx, options, env, self) => {
 		const token = tokens[idx];
 		const src = token?.attrGet('src');
+		const imageDir = pluginOptions?.imageDir?.();
 		if (imageDir && src && !isAbsolutePath(src) && !isExternalUrl(src)) {
 			token.attrSet('src', path.join(imageDir, src));
 		}
@@ -29,15 +33,19 @@ export function activate(context: vscode.ExtensionContext) {
 
 	return {
 		extendMarkdownIt(md: MarkdownIt) {
-			return md.use(prefixifyImageURL, {
-				imageDir: () => "assets",
+			return md.use(frontMatter, (fm: string) => {
+				const fmData = yaml.load(fm) as Record<string, any>;
+				const imageDir = fmData?.['typora-root-url'];
+				dynamicImageDir = imageDir;
+			}).use(prefixifyImageURL, {
+				imageDir: () => dynamicImageDir,
 			});
 		}
 	};
 }
 
 // This method is called when your extension is deactivated
-export function deactivate() {}
+export function deactivate() { }
 
 
 /**
