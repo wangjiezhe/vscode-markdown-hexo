@@ -4,15 +4,16 @@ import path from 'node:path';
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
 
-interface ImageOptions {
-	imageDir?: string;
-}
 
-export function prefixifyImageURL(md: MarkdownIt, pluginOptions?:ImageOptions) {
-	const imageDir = pluginOptions?.imageDir || ".";
-
+export function prefixifyImageURL(md: MarkdownIt) {
 	const original = md.renderer.rules.image!;
 	md.renderer.rules.image = (tokens, idx, options, env, self) => {
+		let imageDir = env.imageDir;
+		if (!imageDir) {
+			imageDir = 'assets';
+			env.imageDir = imageDir;
+		}
+
 		const token = tokens[idx];
 		const src = token?.attrGet('src');
 		if (src && !isAbsolutePath(src) && !isExternalUrl(src)) {
@@ -29,9 +30,7 @@ export function activate(context: vscode.ExtensionContext) {
 
 	return {
 		extendMarkdownIt(md: MarkdownIt) {
-			return md.use(prefixifyImageURL, {
-				imageDir: "assets",
-			});
+			return md.use(prefixifyImageURL);
 		}
 	};
 }
