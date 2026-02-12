@@ -2,6 +2,7 @@ import type MarkdownIt from 'markdown-it';
 import path from 'node:path';
 import frontMatter from 'markdown-it-front-matter';
 import yaml from 'js-yaml';
+import markdownItAttrs from 'markdown-it-attrs';
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
@@ -37,7 +38,9 @@ export function activate(context: vscode.ExtensionContext) {
 				const fmData = yaml.load(fm) as Record<string, any>;
 				const imageDir = fmData?.['typora-root-url'];
 				dynamicImageDir = imageDir;
-			}).use(prefixifyImageURL, {
+			}).use(
+				markdownItAttrs
+			).use(prefixifyImageURL, {
 				imageDir: () => dynamicImageDir,
 			});
 		}
