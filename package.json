@@ -9,6 +9,22 @@
   "categories": [
     "Other"
   ],
+  "icon": "logo/hexo.png",
+  "author": "Jiezhe Wang",
+  "publisher": "wangjiezhe",
+  "keywords": [
+    "markdown",
+    "markdown-it",
+    "hexo"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/wangjiezhe/vscode-markdown-hexo.git"
+  },
+  "bugs": {
+    "url": "https://github.com/wangjiezhe/vscode-markdown-hexo/issue"
+  },
+  "license": "MIT",
   "activationEvents": [],
   "main": "./dist/extension.js",
   "contributes": {
