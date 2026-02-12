@@ -142,32 +142,40 @@ const nunjucksTagPlugin: PluginWithOptions<NunjucksTagOptions> = (md, options = 
 			if (validTypes.includes(firstWord)) {
 				const classes = `${baseClass} ${firstWord}`; // 如 "note success"
 				if (remaining) {
-					// 有剩余内容 → 放入 <summary>
-					const escapedSummary = md.utils.escapeHtml(remaining);
-					return `<div class="${classes}"><p><strong>${escapedSummary}</strong></p>`;
+					// 有剩余内容
+					const summaryHtml = md.renderInline(remaining);
+					return `<div class="${classes}"><p><strong>${summaryHtml}</strong></p>`;
 				} else {
-					// 仅类型词，无剩余内容 → 不输出 summary
+					// 仅类型词，无剩余内容
 					return `<div class="${classes}">`;
 				}
 			}
 
 			// 情况2：第一个单词不是预设类型（或 info 为空）
-			const escapedInfo = md.utils.escapeHtml(info);
-			if (escapedInfo) {
+			if (info) {
 				// 整个 info 作为 summary 内容
-				return `<div class="${baseClass}"><summary>${escapedInfo}</summary>`;
+				const summaryHtml = md.renderInline(info);
+				return `<div class="${baseClass}"><p><strong>${summaryHtml}</strong></p>`;
 			} else {
 				// info 完全为空
 				return `<div class="${baseClass}">`;
 			}
+		} else if (tagName === 'cq') {
+			if (token.nesting === 1) {
+				return '<blockquote class="blockquote-center">';
+			} else {
+				return '</blockquote>';
+			}
+		} else if (tagName === 'gp') {
+			return '';
 		}
 
-		// 默认渲染：将块包装在 <div class="nunjucks-{tag}"> 中
+		// 默认渲染：输出原始 tag
 		if (token.nesting === 1) {
 			const escapedParams = md.utils.escapeHtml(token.info || '');
-			return `<div class="nunjucks-tag nunjucks-${tagName}" data-params="${escapedParams}">`;
+			return `<p>{% ${tagName} ${escapedParams} %}</p>`;
 		} else {
-			return '</div>';
+			return `<p>{% end${tagName} %}</p>`;
 		}
 	};
 };

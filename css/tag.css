@@ -40,3 +40,7 @@
   background: #3d3c3b;
   border-left-color: #f0ad4e;
 }
+
+.blockquote-center {
+  text-align: center;
+}
