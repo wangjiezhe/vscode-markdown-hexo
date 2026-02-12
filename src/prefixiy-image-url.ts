@@ -1,5 +1,5 @@
-import path from 'node:path';
 import type MarkdownIt from 'markdown-it';
+import path from 'node:path';
 
 interface ImageOptions {
 	imageDir?: Function;

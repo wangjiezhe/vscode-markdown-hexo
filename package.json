@@ -14,7 +14,8 @@
   "contributes": {
     "markdown.markdownItPlugins": true,
     "markdown.previewStyles": [
-      "./css/svg.css"
+      "./css/svg.css",
+      "./css/note.css"
     ]
   },
   "scripts": {

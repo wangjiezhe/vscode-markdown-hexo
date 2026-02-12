@@ -1,0 +1,42 @@
+.note {
+  border: initial;
+  border-radius: 0.3em;
+  border-left: 3px solid #eee;
+  position: relative;
+  margin-bottom: 20px;
+  padding: 1em;
+  border-left-color: #ddd;
+
+  :first-child {
+    margin-top: 0;
+  }
+
+  :last-child {
+    margin-bottom: 0;
+  }
+}
+
+.note.info {
+  background: #3b3c3c;
+  border-left-color: #428bca;
+}
+
+.note.primary {
+  background: #3c3b3c;
+  border-left-color: #6f42c1;
+}
+
+.note.danger {
+  background: #3d3c3c;
+  border-left-color: #d9534f;
+}
+
+.note.success {
+  background: #3b3c3b;
+  border-left-color: #5cb85c;
+}
+
+.note.warning {
+  background: #3d3c3b;
+  border-left-color: #f0ad4e;
+}
