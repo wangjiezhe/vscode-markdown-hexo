@@ -120,6 +120,48 @@ const nunjucksTagPlugin: PluginWithOptions<NunjucksTagOptions> = (md, options = 
 			return tagRenderers[tagName](tokens, idx, options, env, self);
 		}
 
+		// 渲染 note
+		if (tagName === 'note') {
+			const token = tokens[idx];
+
+			// 闭标签：直接返回 </div>
+			if (token.nesting === -1) {
+				return '</div>';
+			}
+
+			// 开标签处理
+			const info = token.info || '';
+			const parts = info.trim().split(/\s+/);
+			const firstWord = parts[0] || '';
+			const remaining = parts.slice(1).join(' ').trim();
+
+			const validTypes = ['success', 'info', 'primary', 'warning', 'danger'];
+			const baseClass = 'note';
+
+			// 情况1：第一个单词是预设类型
+			if (validTypes.includes(firstWord)) {
+				const classes = `${baseClass} ${firstWord}`; // 如 "note success"
+				if (remaining) {
+					// 有剩余内容 → 放入 <summary>
+					const escapedSummary = md.utils.escapeHtml(remaining);
+					return `<div class="${classes}"><p><strong>${escapedSummary}</strong></p>`;
+				} else {
+					// 仅类型词，无剩余内容 → 不输出 summary
+					return `<div class="${classes}">`;
+				}
+			}
+
+			// 情况2：第一个单词不是预设类型（或 info 为空）
+			const escapedInfo = md.utils.escapeHtml(info);
+			if (escapedInfo) {
+				// 整个 info 作为 summary 内容
+				return `<div class="${baseClass}"><summary>${escapedInfo}</summary>`;
+			} else {
+				// info 完全为空
+				return `<div class="${baseClass}">`;
+			}
+		}
+
 		// 默认渲染：将块包装在 <div class="nunjucks-{tag}"> 中
 		if (token.nesting === 1) {
 			const escapedParams = md.utils.escapeHtml(token.info || '');
