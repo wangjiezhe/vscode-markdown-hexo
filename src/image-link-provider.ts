@@ -35,11 +35,19 @@ export class ImageLinkProvider implements vscode.DocumentLinkProvider {
             const adjustedUri = this.pathToUri(adjustedSrc, document.uri);
 
             if (adjustedUri) {
-                const startPos = document.positionAt(match.index);
-                const endPos = document.positionAt(match.index + fullMatch.length);
+                const fullMatch = match[0];
+                const altText = match[1];
+
+                // 跳过开头 `![alt](`
+                const srcStartOffset = match.index + 2 + altText.length + 2;
+                // 跳过最后的 `)`
+                const srcEndOffset = match.index + fullMatch.length - 1;
+
+                const srcStart = document.positionAt(srcStartOffset);
+                const srcEnd = document.positionAt(srcEndOffset);
 
                 const link = new vscode.DocumentLink(
-                    new vscode.Range(startPos, endPos),
+                    new vscode.Range(srcStart, srcEnd),
                     adjustedUri
                 );
                 link.tooltip = `Open: ${adjustedSrc}`;
