@@ -11,3 +11,10 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 ### Added
 
 - Initial release
+
+## [0.1.1] - 2026-02-13
+
+### Fixed
+
+- Show image preview only on image url
+- Underline image url only

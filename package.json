@@ -2,7 +2,7 @@
   "name": "vscode-markdown-hexo",
   "displayName": "vscode-markdown-hexo",
   "description": "Support hexo-style markdown preview",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "engines": {
     "vscode": "^1.109.0"
   },

@@ -97,11 +97,12 @@ export class ImageHoverProvider implements vscode.HoverProvider {
 
         // Use markdown image syntax with file URI
         const imageUri = fileUri.toString();
-        // 定义高度的方法见
+        // `background-color` 只对最下面一行文字高度生效，不能覆盖整个图片
+        // markdown.appendMarkdown('<span style="background-color:#fff;">');
+        // 指定宽度和高度的方法见
         // https://github.com/microsoft/vscode/blob/1.109.2/src/vs/base/browser/markdownRenderer.ts#L70
         // 和
         // https://github.com/microsoft/vscode/blob/1.109.2/src/vs/base/common/htmlContent.ts#L187
-        // markdown.appendMarkdown('<span style="background-color:#fff;">');
         markdown.appendMarkdown(`![${altText}](${imageUri}${dimensionsText})`);
         // markdown.appendMarkdown('</span>');
         // markdown.appendText('\n\n');
