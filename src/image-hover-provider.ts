@@ -46,9 +46,9 @@ export class ImageHoverProvider implements vscode.HoverProvider {
         }
 
         const matchStart = document.positionAt(
-            document.getText().indexOf(fullMatch, document.offsetAt(new vscode.Position(position.line, 0)))
+            document.getText().indexOf(originalSrc, document.offsetAt(new vscode.Position(position.line, 0)))
         );
-        const matchEnd = matchStart.translate(0, fullMatch.length);
+        const matchEnd = matchStart.translate(0, originalSrc.length);
 
         // Only show hover if cursor is on the image link
         if (!range.intersection(new vscode.Range(matchStart, matchEnd))) {
