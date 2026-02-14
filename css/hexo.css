@@ -44,3 +44,7 @@
 .blockquote-center {
   text-align: center;
 }
+
+body {
+  text-autospace: normal;
+}
