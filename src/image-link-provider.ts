@@ -1,6 +1,7 @@
 import * as vscode from 'vscode';
 import path from 'node:path';
 import { FrontMatterCache } from './front-matter-cache';
+import { isAbsolutePath, isExternalUrl } from './path-utils';
 
 /**
  * Image link provider for Ctrl+click navigation
@@ -27,7 +28,7 @@ export class ImageLinkProvider implements vscode.DocumentLinkProvider {
             const originalSrc = match[2];
 
             // Skip external URLs and absolute paths
-            if (this.isExternalUrl(originalSrc) || this.isAbsolutePath(originalSrc)) {
+            if (isExternalUrl(originalSrc) || isAbsolutePath(originalSrc)) {
                 continue;
             }
 
@@ -102,28 +103,5 @@ export class ImageLinkProvider implements vscode.DocumentLinkProvider {
         } catch {
             return undefined;
         }
-    }
-
-    /**
-     * Check if path is absolute
-     */
-    private isAbsolutePath(p: string): boolean {
-        if (p.startsWith('/')) {
-            return true;
-        }
-        if (/^[A-Za-z]:\\/.test(p) || p.startsWith('\\\\')) {
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * Check if URL is external
-     */
-    private isExternalUrl(url: string): boolean {
-        return url.startsWith('http://') ||
-            url.startsWith('https://') ||
-            url.startsWith('data:') ||
-            url.startsWith('file://');
     }
 }
