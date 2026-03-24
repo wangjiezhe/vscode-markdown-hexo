@@ -3,7 +3,7 @@ import type MarkdownIt from 'markdown-it';
 import markdownItAttrs from 'markdown-it-attrs';
 import frontMatter from 'markdown-it-front-matter';
 import nunjucksTagPlugin from './nunjucks-tag';
-import prefixifyImageURL from './prefixiy-image-url';
+import prefixifyImageURL from './prefixify-image-url';
 import { FrontMatterCache, createCacheInvalidationSubscription } from './front-matter-cache';
 import { ImageLinkProvider } from './image-link-provider';
 import { ImageHoverProvider } from './image-hover-provider';
