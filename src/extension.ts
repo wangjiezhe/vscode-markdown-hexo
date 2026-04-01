@@ -2,6 +2,7 @@ import yaml from 'js-yaml';
 import type MarkdownIt from 'markdown-it';
 import markdownItAttrs from 'markdown-it-attrs';
 import frontMatter from 'markdown-it-front-matter';
+import footnote from 'markdown-it-footnote';
 import nunjucksTagPlugin from './nunjucks-tag';
 import prefixifyImageURL from './prefixify-image-url';
 import { FrontMatterCache, createCacheInvalidationSubscription } from './front-matter-cache';
@@ -62,6 +63,9 @@ export function activate(context: vscode.ExtensionContext) {
 
 			// 支持渲染 Hexo 的 note 标签
 			md.use(nunjucksTagPlugin);
+
+			// 支持脚注 (footnote)
+			md.use(footnote);
 
 			return md;
 		}
