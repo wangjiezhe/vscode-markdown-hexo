@@ -30,3 +30,9 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 - Fix typo in filename
 - Fix multiple images preview in one line
+
+## [0.1.3] - 2026-04-01
+
+### Added
+
+- Support footnote syntax in preview
