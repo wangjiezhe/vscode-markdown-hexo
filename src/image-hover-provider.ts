@@ -25,35 +25,49 @@ export class ImageHoverProvider implements vscode.HoverProvider {
         }
 
         const line = document.lineAt(position.line).text;
-        const word = document.getText(range);
+        const lineStartOffset = document.offsetAt(new vscode.Position(position.line, 0));
 
-        // Check if this looks like an image markdown pattern
-        const imageRegex = /!\[([^\]]*)\]\(([^)]+)\)/;
-        const match = line.match(imageRegex);
+        // Use global regex to find ALL image matches on the line
+        const imageRegex = /!\[([^\]]*)\]\(([^)]+)\)/g;
+        const matches = [...line.matchAll(imageRegex)];
 
-        if (!match) {
+        if (matches.length === 0) {
             return undefined;
         }
 
-        const fullMatch = match[0];
-        const altText = match[1];
-        const originalSrc = match[2];
+        // Find the match that contains the cursor position
+        let targetMatch: RegExpMatchArray | null = null;
+        let matchStart: vscode.Position | null = null;
+        let matchEnd: vscode.Position | null = null;
 
-        // Check if the cursor is within the image markdown
-        const startIdx = line.indexOf(fullMatch);
-        if (startIdx === -1) {
+        for (const match of matches) {
+            const fullMatch = match[0];
+            const altText = match[1];
+            const originalSrc = match[2];
+
+            // Calculate the position of this specific match using match.index
+            const matchIndex = match.index!;
+            const srcStartOffset = matchIndex + 2 + altText.length + 2; // Skip ![, alt, and ]
+            const srcEndOffset = matchIndex + fullMatch.length - 1; // Skip closing )
+
+            const srcStart = document.positionAt(lineStartOffset + srcStartOffset);
+            const srcEnd = document.positionAt(lineStartOffset + srcEndOffset);
+
+            // Check if cursor is within this image link's src portion
+            if (range.intersection(new vscode.Range(srcStart, srcEnd))) {
+                targetMatch = match;
+                matchStart = srcStart;
+                matchEnd = srcEnd;
+                break;
+            }
+        }
+
+        if (!targetMatch || !matchStart || !matchEnd) {
             return undefined;
         }
 
-        const matchStart = document.positionAt(
-            document.getText().indexOf(originalSrc, document.offsetAt(new vscode.Position(position.line, 0)))
-        );
-        const matchEnd = matchStart.translate(0, originalSrc.length);
-
-        // Only show hover if cursor is on the image link
-        if (!range.intersection(new vscode.Range(matchStart, matchEnd))) {
-            return undefined;
-        }
+        const altText = targetMatch[1];
+        const originalSrc = targetMatch[2];
 
         // Skip external URLs
         if (this.isExternalUrl(originalSrc)) {
