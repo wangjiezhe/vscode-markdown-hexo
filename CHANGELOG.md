@@ -18,3 +18,15 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 - Show image preview only on image url
 - Underline image url only
+
+## [0.1.2] - 2026-04-01
+
+### Changed
+
+- Enable text-autospace for preview
+- Seperate path related functions
+
+### Fixed
+
+- Fix typo in filename
+- Fix multiple images preview in one line
