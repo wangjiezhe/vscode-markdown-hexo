@@ -12,5 +12,6 @@
     "typescript.tsc.autoDetect": "off",
     "css.lint.validProperties": [
         "text-autospace"
-    ]
+    ],
+    "js/ts.tsdk.path": "node_modules/typescript/lib"
 }
