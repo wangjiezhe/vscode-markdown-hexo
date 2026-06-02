@@ -44,25 +44,27 @@ export class FrontMatterCache {
     }
 
     /**
-     * Parse front-matter to extract typora-root-url
+     * Parse typora-root-url from raw markdown text synchronously
      */
-    private async parseFrontMatter(document: vscode.TextDocument): Promise<string | undefined> {
-        const text = document.getText();
-
-        // Match front-matter at the start of the document
+    static parseTyporaRootUrl(text: string): string | undefined {
         const fmMatch = text.match(/^---\n([\s\S]*?)\n---/);
-
         if (!fmMatch) {
             return undefined;
         }
-
         try {
             const fmData = yaml.load(fmMatch[1]) as Record<string, any>;
             return fmData?.['typora-root-url'] as string | undefined;
         } catch {
-            // Invalid YAML, ignore
             return undefined;
         }
+    }
+
+    /**
+     * Parse front-matter to extract typora-root-url
+     */
+    private async parseFrontMatter(document: vscode.TextDocument): Promise<string | undefined> {
+        const text = document.getText();
+        return FrontMatterCache.parseTyporaRootUrl(text);
     }
 
     /**
