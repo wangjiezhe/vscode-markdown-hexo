@@ -36,3 +36,9 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 ### Added
 
 - Support footnote syntax in preview
+
+## [0.1.5] - 2026-06-02
+
+### Fixed
+
+- Fix collision with vscode 1.121+ due to markdown-it-front-matter
