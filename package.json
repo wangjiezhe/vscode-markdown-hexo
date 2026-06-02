@@ -62,7 +62,6 @@
   "dependencies": {
     "js-yaml": "^4.1.1",
     "markdown-it-attrs": "^4.5.0",
-    "markdown-it-footnote": "^4.0.0",
-    "markdown-it-front-matter": "^0.2.4"
+    "markdown-it-footnote": "^4.0.0"
   }
 }
