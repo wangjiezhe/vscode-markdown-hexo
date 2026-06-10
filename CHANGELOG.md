@@ -12,18 +12,17 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 - Fix image `typora-root-url` prefix lost after note tag with title
 
-## [0.1.0] - 2026-02-13
-
-### Added
-
-- Initial release
-
-## [0.1.1] - 2026-02-13
+## [0.1.5] - 2026-06-02
 
 ### Fixed
 
-- Show image preview only on image url
-- Underline image url only
+- Fix collision with vscode 1.121+ due to markdown-it-front-matter
+
+## [0.1.3] - 2026-04-01
+
+### Added
+
+- Support footnote syntax in preview
 
 ## [0.1.2] - 2026-04-01
 
@@ -37,14 +36,15 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 - Fix typo in filename
 - Fix multiple images preview in one line
 
-## [0.1.3] - 2026-04-01
-
-### Added
-
-- Support footnote syntax in preview
-
-## [0.1.5] - 2026-06-02
+## [0.1.1] - 2026-02-13
 
 ### Fixed
 
-- Fix collision with vscode 1.121+ due to markdown-it-front-matter
+- Show image preview only on image url
+- Underline image url only
+
+## [0.1.0] - 2026-02-13
+
+### Added
+
+- Initial release
