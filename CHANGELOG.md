@@ -6,6 +6,12 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 ## [Unreleased]
 
+## [0.1.6] - 2026-06-10
+
+### Fixed
+
+- Fix image `typora-root-url` prefix lost after note tag with title
+
 ## [0.1.0] - 2026-02-13
 
 ### Added
