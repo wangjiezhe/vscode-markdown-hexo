@@ -6,6 +6,13 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 ## [Unreleased]
 
+## [0.1.7] - 2026-06-10
+
+### Fixed
+
+- Fix release script overriding all `version` fields in package-lock.json
+- Fix CHANGELOG.md version entries out of chronological order
+
 ## [0.1.6] - 2026-06-10
 
 ### Fixed
