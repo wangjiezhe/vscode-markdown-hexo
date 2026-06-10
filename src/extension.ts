@@ -47,7 +47,9 @@ export function activate(context: vscode.ExtensionContext) {
 		extendMarkdownIt(md: MarkdownIt) {
 
 			md.core.ruler.push('collect_typora_root_url', (state) => {
-				dynamicImageDir = FrontMatterCache.parseTyporaRootUrl(state.src);
+				if (!state.inlineMode) {
+					dynamicImageDir = FrontMatterCache.parseTyporaRootUrl(state.src);
+				}
 			});
 
 			md.use(prefixifyImageURL, { imageDir: () => dynamicImageDir });
