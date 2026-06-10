@@ -30,8 +30,7 @@ fi
 # Update version in package.json
 sed -i "s/\"version\": \".*\"/\"version\": \"$VERSION\"/" package.json
 
-# Update version in package-lock.json
-sed -i "s/\"version\": \".*\"/\"version\": \"$VERSION\"/" package-lock.json
+jq --arg v "$VERSION" '.version = $v | .packages[""].version = $v' package-lock.json > package-lock.json.tmp && mv package-lock.json.tmp package-lock.json
 
 # Update CHANGELOG.md
 CHANGELOG_FILE="CHANGELOG.md"
