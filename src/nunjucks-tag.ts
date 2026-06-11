@@ -135,7 +135,7 @@ const nunjucksTagPlugin: PluginWithOptions<NunjucksTagOptions> = (md, options = 
 			const firstWord = parts[0] || '';
 			const remaining = parts.slice(1).join(' ').trim();
 
-			const validTypes = ['success', 'info', 'primary', 'warning', 'danger'];
+			const validTypes = ['default', 'success', 'info', 'primary', 'warning', 'danger'];
 			const baseClass = 'note';
 
 			// 情况1：第一个单词是预设类型
